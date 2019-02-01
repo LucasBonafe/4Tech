@@ -8,6 +8,7 @@ server.use(bodyParser.urlencoded({extended:false}))
 server.use(bodyParser.json())
 
     consign()
+        .include('./config/firebaseConfig.js')
         .include('./app')
         .into(server)
 

@@ -4,38 +4,43 @@ let collectionJobs= []
 
 module.exports = routes =>{
 
-	routes.get('/jobs/:id', (req, res)=>{
-		let job= collectionJobs.find(job => job.id == req.params.id)
-
-		if(job)
-			res.send(job)
-		else
-			res.status(404).send('Job not found')
+	routes.get('/jobs/:id', async (req, res)=>{
+		try{
+			let job= db.doc(req.params.id).get()
+		}catch(error){
+			return res.status(500).send(error)
+		}
 	})
 
 	routes.put('/jobs/:id', (req, res)=>{
 		collectionJobs.forEach(job =>{
 			if(job.id == req.params.id){
 				try{
-					job.id= req.body.id,
-					job.name= req.body.name,
-					job.salary= req.body.salary,
-					job.description= req.body.description,
-					job.skills= req.body.skills,
-					job.area= req.body.area,
-					job.differentials= req.body.differentials,
-					job.isPcd= req.body.isPcd,
-					job.isActive= req.body.isActive
+					let job = await db.doc(req.params.id).get()
 
-					res.send(job)
+					if(job.isDocument)
+						return res.send(extractJob(job))
+					else
+						return res.status(404).send('Job not found')
 				}catch(error){return res.status(500).send('Invalid parameters!')}
 				
 			}
 		})
 	})
 
-    routes.get('/jobs', (req, res)=>{
-        res.send(collectionJobs)
+    routes.get('/jobs', async (req, res)=>{
+        try{
+			let docs= await db.get()
+			let jobs= []
+
+			docs.forEach(doc =>{
+				jobs.push(extractJob(doc))
+			})
+
+			return res.send(jobs)
+		}catch (error){
+			return res.status(500).send(error)
+		}
     })
 
     routes.post('/jobs', (req, res)=>{
@@ -54,6 +59,19 @@ module.exports = routes =>{
             collectionJobs.push(newJob)
             res.send(newJob)
         }catch(error){res.status(500).send(error)}
-    })
-
+	})
+	
+	extractJob = job => {
+		let v = job.data()
+		return {
+			id: job.id,
+			name: v.name,
+			salary: v.salary,
+			description: v.description,
+			skills: v.skills,
+			differentials: v.differentials,
+			isPcd: v.isPcd,
+			isActive: v.isActive
+		}
+	}
 }
