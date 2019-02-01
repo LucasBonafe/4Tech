@@ -12,32 +12,22 @@ module.exports = routes =>{
 		}
 	})
 	
-	routes.put('/jobs/:id', (req, res)=>{
-		collectionJobs.forEach(job =>{
-			if(job.id == req.params.id){
-				try{
-					let job = await db.doc(req.params.id).update(req.body)
-					
-					if(job.exists)
-					return res.send(`A vaga ${req.params.id} foi atualizada com sucesso`)
-					else
-					return res.status(404).send('Job not found')
-				}catch(error){
-					return res.status(500).send('Invalid parameters!')
-				}
-				
-			}
-		})
+	routes.put('/jobs/:id', async (req, res)=>{
+		try{
+			let job = await db.doc(req.params.id).update(req.body)
+			if(job.exists)
+				return res.send(`A vaga ${req.params.id} foi atualizada com sucesso`)
+			else
+				return res.status(404).send('Job not found')
+		}catch(error){
+			return res.status(500).send(error)
+		}
 	})
 	
 	routes.delete('/jobs/:id', async (req, res)=>{
 		try{
-			let job = await db.doc(req.params.id).delete()
-
-			if(job)
-				return res.send(`A vaga ${req.params.id} foi removida com sucesso`)
-			else
-				return res.status(404).send('Job not found')
+			let job= await db.doc(req.params.id).delete()
+			return res.send(job)
 		}catch(error){
 			return res.status(500).send(error)
 		}
@@ -57,25 +47,14 @@ module.exports = routes =>{
 			return res.status(500).send(error)
 		}
     })
-	
-    routes.post('/jobs', (req, res)=>{
-        try{
-            let newJob= new jobModel.Job(
-				req.body.id,
-                req.body.name,
-                req.body.salary,
-                req.body.description,
-                req.body.skills,
-                req.body.area,
-                req.body.differentials,
-                req.body.isPcd,
-                req.body.isActive
-            )
-            collectionJobs.push(newJob)
-            res.send(newJob)
-        }catch(error){res.status(500).send(error)}
+
+	routes.post('/jobs', [check('name').isLength({min: 5})], async (req, res)=>{
+		try{
+			await db.doc().set(req.body)
+			return res.send('Job added successfully')
+		}catch(error){res.status(500).send(error)}
 	})
-	
+
 	extractJob = job => {
 		let v = job.data()
 		return {
