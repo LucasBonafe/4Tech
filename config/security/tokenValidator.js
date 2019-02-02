@@ -2,7 +2,7 @@ const jwt= require('jsonwebtoken')
 const db= require('../firebaseConfig')
 const secretKey= require('../secretKey')
 
-const validateToken= (req, res, next)=>{
+const tokenValidator= (req, res, next)=>{
 
 	console.log(req.headers)
 
@@ -23,4 +23,4 @@ const validateToken= (req, res, next)=>{
     })
 }
 
-module.exports= validateToken
+module.exports= tokenValidator
