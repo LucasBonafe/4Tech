@@ -1,17 +1,37 @@
-const jobModel= require('../../models/job')
-
-let collectionJobs= []
+const validateToken= require('../../config/security/tokenValidator')
 
 module.exports = routes =>{
-
+	
+	const db= routes.config.firebaseConfig.collection('jobs')
+	
 	routes.get('/jobs/:id', async (req, res)=>{
 		try{
 			let job= db.doc(req.params.id).get()
+			
+			if(job.exists)
+			return res.send(extractJob(job))
+			else
+			return res.status(404).send('Job not found')
 		}catch(error){
 			return res.status(500).send(error)
 		}
 	})
-	
+
+	routes.get('/jobs', validateToken, async (req, res)=>{
+		try{
+			let docs= await db.get()
+			let jobs= []
+			
+			docs.forEach(doc =>{
+				jobs.push(extractJob(doc))
+			})
+			
+			return res.send(jobs)
+		}catch (error){
+			return res.status(500).send(error)
+		}
+	})
+
 	routes.put('/jobs/:id', async (req, res)=>{
 		try{
 			let job = await db.doc(req.params.id).update(req.body)
@@ -32,21 +52,6 @@ module.exports = routes =>{
 			return res.status(500).send(error)
 		}
 	})
-
-    routes.get('/jobs', async (req, res)=>{
-		try{
-			let docs= await db.get()
-			let jobs= []
-			
-			docs.forEach(doc =>{
-				jobs.push(extractJob(doc))
-			})
-			
-			return res.send(jobs)
-		}catch (error){
-			return res.status(500).send(error)
-		}
-    })
 
 	routes.post('/jobs', [check('name').isLength({min: 5})], async (req, res)=>{
 		try{
