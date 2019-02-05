@@ -37,6 +37,7 @@ class JobsList extends React.Component{
 	render(){
 		const renderJobs= this.state.jobs.map(job =>{
 			return <JobCard
+				id={job.id}
 				name={job.name}
 				description={job.description}
 				salary={job.salary}
