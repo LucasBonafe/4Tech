@@ -34,6 +34,22 @@ class JobsList extends React.Component{
 		}
 	}
 
+	componentWillMount(){
+		console.log('COMPONENT WILL MOUNT')
+	}
+
+	componentWillUpdate(){
+		console.log('COMPONENT WILL UPDATE')
+	}
+
+	componentDidUpdate(){
+		console.log('COMPONENT DID UPDATE')
+	}
+
+	componentDidMount(){
+		console.log('COMPONENT DID MOUNT')
+	}
+
 	render(){
 		const renderJobs= this.state.jobs.map(job =>{
 			return <JobCard
