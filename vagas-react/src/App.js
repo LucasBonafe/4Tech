@@ -1,23 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
-import Header from './components/navigation/Header/Header'
-import Form from './components/navigation/Form/Form'
-import Jobs from './components/navigation/Job/JobsList'
-import Collapse from './components/navigation/Collapse/Collapse'
+import Cabecalho from './components/navigation/Header/Header';
+import JobManagement from './components/JobManagement/JobManagement';
 
 class App extends Component {
-  render= () =>(
-    <div className="App">
-      <Header/>
-      <Form/>
-      <div className="container pt-3">
-        <Collapse buttonText="Criar vaga" btnClass="btn-secundary" collapseId="newJobForm">
-        <Jobs/>
-        </Collapse>
+  render() {
+    return (
+      <div className="App">
+        <Cabecalho/>
+        <div className="container pt-3">
+          <JobManagement/>
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 }
 
 export default App;
