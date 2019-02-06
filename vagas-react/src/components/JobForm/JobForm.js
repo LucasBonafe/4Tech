@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 export default class JobForm extends Component {
 
@@ -17,9 +18,21 @@ export default class JobForm extends Component {
   }
 
   postJobHandler= (event) =>{
-    this.props.addItemList({...this.state.newJob});
+
+    let objId= ''
+
+    axios.post('/jobs', this.state.newJob)
+      .then(response =>{
+        objId= response.data
+        this.props.addItemList({id: objId, ...this.state.newJob})
+        this.setState({newJob: {...this.objModel}})//Limpar form
+      })
+      .catch(error =>{
+        alert('Deu erro no servidor!')
+        console.error(error)
+      })
+
     event.preventDefault();
-    this.setState({newJob:{}})//Limpar form
   }
 
   onValueChangeHandler= (attrName, pValue) =>{
