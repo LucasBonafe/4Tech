@@ -9,12 +9,7 @@ import axios from 'axios'
 class JobManagement extends React.Component {
 
   state = {
-    jobs: [
-      { id: 1, name: 'Desenvolvedor JR', description: 'jahsdkjahskdj', salary: 1200, area: 'dev' },
-      { id: 2, name: 'Tester JR', description: 'blablabla', salary: 1200, area: 'test' },
-      { id: 3, name: 'Designer JR', description: 'jahsdkjahskdj', salary: 1200, area: 'design' },
-      { id: 4, name: 'Tester JR', description: 'blablabla', salary: 1200, area: 'test' }
-    ],
+    jobs: [],
     hasError: false
   }
 
@@ -26,14 +21,31 @@ class JobManagement extends React.Component {
 
   jobRemoveHandler = (paramId, paramName) => {
     if (window.confirm(`Deseja realmente remover a vaga "${paramName}"?`)){
-      const index = this.state.jobs.findIndex(job => job.id === paramId);
 
-      let newList = this.state.jobs;
-      newList.splice(index, 1);
-      this.setState({ jobs: newList });
+      axios.delete(`/jobs/${paramId}`)
+        .then(_=>{
+          const index = this.state.jobs.findIndex(job => job.id === paramId);
 
-      window.alert('Removido com sucesso!');
+          let newList = this.state.jobs;
+          newList.splice(index, 1);
+          this.setState({ jobs: newList });
+
+          window.alert('Removido com sucesso!');
+        })
+        .catch(error =>{
+          console.error(error)
+        })
     }
+  }
+
+  componentDidMount() {
+    axios.get('/jobs')
+    .then(response =>{
+      this.setState({jobs: response.data})
+    })
+    .catch(error =>{
+      console.error(error)
+    })
   }
 
   componentWillMount() {
@@ -48,21 +60,12 @@ class JobManagement extends React.Component {
     console.log('COMPONENT DID UPDATE');
   }
 
-  componentDidMount() {
-    axios.get('/jobs')
-    .then(response =>{
-      this.setState({jobs: response})
-    })
-    .catch(error =>{
-      console.error(error)
-    })
-  }
-
   render() {
 
     console.log('RENDER!');
 
-    const renderJobs = this.state.jobs.map(job => {
+    console.log(this.state.jobs)
+    let renderJobs= this.state.jobs.map(job => {
       return <JobCard
         key={job.id}
         name={job.name}
@@ -74,7 +77,7 @@ class JobManagement extends React.Component {
 
     return (
       <div>
-        <Collapse buttonText="CRIAR VAGA" btnClass='btn-secondary' 
+        <Collapse buttonText="CRIAR VAGA" btnClass='btn-secondary'
           collapseId="newJobForm">
           <JobForm addItemList={ this.jobCreateHandler }/>
         </Collapse>

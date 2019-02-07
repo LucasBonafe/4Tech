@@ -8,7 +8,7 @@ const server = express()
 
 server.use(bodyParser.urlencoded({extended:false}))
 server.use(bodyParser.json())
-
+server.use(cors())
     consign()
         .include('./config/firebaseConfig.js')
         .include('./app')
