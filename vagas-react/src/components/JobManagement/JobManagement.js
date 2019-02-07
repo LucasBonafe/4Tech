@@ -39,7 +39,13 @@ class JobManagement extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/jobs')
+    const axiosConfig={
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(window.localStorage.getItem('token'))
+      }
+    }
+
+    axios.get('/jobs', axiosConfig)
     .then(response =>{
       this.setState({jobs: response.data})
     })

@@ -1,9 +1,10 @@
 import React from 'react'
 import logo from '../../../assets/logo-vagas.png'
 import {Link} from 'react-router-dom'
+import { prependOnceListener } from 'cluster';
 
 
-const header= () =>(
+const header= (props) =>(
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
     <Link className="navbar-brand" to="#">
       <img src={logo} width="88" height="40" className="d-inline-block align-top" alt="Logo" to="/dashboard"/>
@@ -17,6 +18,11 @@ const header= () =>(
         <Link className="nav-item nav-link" to="/sobre">Sobre</Link>
       </div>
     </div>
+
+    <a className="nav-item nav-link text-white">{props.userName}</a>
+    <a className="nav-item nav-link text-white" onClick>{() => props.logout()}
+      <i className="fas fa-sign-out-all"></i>
+    </a>
   </nav>
 )
 
