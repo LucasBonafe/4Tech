@@ -46,7 +46,7 @@ export default class JobForm extends Component {
       <form className="row mb-0">
         <div className="form-group col-12">
           <label for="nome">Nome *</label>
-          <input type="text" className="form-control" id="nome" 
+          <input type="text" className="form-control" id="nome"
             value={ this.state.newJob.name } required
             onChange={(event) => this.onValueChangeHandler('name', event.target.value)}/>
         </div>
@@ -70,7 +70,7 @@ export default class JobForm extends Component {
         </div>
         <div className="form-group col-sm-12 col-md-6">
           <label for="salario">Salário Base *</label>
-          <input type="text" className="form-control" id="salario" 
+          <input type="text" className="form-control" id="salario"
             value={ this.state.newJob.salary } required
             onChange={(event) => this.onValueChangeHandler('salary', event.target.value)}/>
         </div>
@@ -79,14 +79,14 @@ export default class JobForm extends Component {
           <select className="form-control" id="area"
             value={ this.state.newJob.area }
             onChange={(event) => this.onValueChangeHandler('area', event.target.value)}>
-            <option value='dev'>Desenvolvimento</option>
-            <option value='design'>UX/UI</option>
-            <option value='test'>Teste</option>
+            <option value='dev'>Developer</option>
+            <option value='design'>Designer</option>
+            <option value='test'>Tester</option>
           </select>
         </div>
 
         <div className="form-group form-check col-sm-12 col-md-6 ml-3">
-          <input type="checkbox" className="form-check-input" id="isPcd" 
+          <input type="checkbox" className="form-check-input" id="isPcd"
             checked={ this.state.newJob.isPcd }
             onChange={(e) => this.onValueChangeHandler('isPcd', e.target.checked)}/>
           <label className="form-check-label" for="isPcd">Vaga para PCD</label>

@@ -16,7 +16,7 @@ class JobManagement extends React.Component {
   jobCreateHandler = (paramNewJob) => {
     let newList = this.state.jobs;
     newList.push(paramNewJob);
-    this.setState({ jobs: newList });
+    this.setState({jobs: newList});
   }
 
   jobRemoveHandler = (paramId, paramName) => {
@@ -28,7 +28,7 @@ class JobManagement extends React.Component {
 
           let newList = this.state.jobs;
           newList.splice(index, 1);
-          this.setState({ jobs: newList });
+          this.setState({jobs: newList});
 
           window.alert('Removido com sucesso!');
         })
@@ -49,15 +49,19 @@ class JobManagement extends React.Component {
   }
 
   componentWillMount() {
-    console.log('COMPONENT WILL MOUNT');
+    console.log('COMPONENT WILL MOUNT')
   }
 
   componentWillUpdate() {
-    console.log('COMPONENT WILL UPDATE');
+    console.log('COMPONENT WILL UPDATE')
   }
 
   componentDidUpdate() {
-    console.log('COMPONENT DID UPDATE');
+    console.log('COMPONENT DID UPDATE')
+  }
+
+  componentWillUnmount(){
+    console.log('COMPONENT WILL UNMOUNT')
   }
 
   render() {

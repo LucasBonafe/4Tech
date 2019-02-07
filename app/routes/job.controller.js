@@ -73,11 +73,11 @@ module.exports = routes => {
         return {
             id: job.id,
             name: v.name,
-            salary: v.salary,
             description: v.description,
             skills: v.skills,
-            area: v.area,
             differentials: v.differentials,
+            salary: v.salary,
+            area: v.area,
             isPcd: v.isPcd,
             isActive: v.isActive
         }

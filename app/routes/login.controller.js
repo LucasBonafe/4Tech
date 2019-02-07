@@ -16,10 +16,10 @@ module.exports = routes => {
             if (filteredUser) {
                 filteredUser = extractUser(filteredUser)
                 let id = filteredUser.id
-                const token = jwt.sign({ id }, secretKey)
-                res.send({ auth: true, token: token, user: filteredUser })
+                const token = jwt.sign({id}, secretKey)
+                res.send({auth: true, token: token, user: filteredUser })
             } else
-                return res.status(404).send({ auth: false, message: 'User not found'})
+                return res.status(404).send({auth: false, message: 'User not found'})
         } catch (error) {
             return res.status(500).send(error)
         }
