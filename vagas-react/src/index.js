@@ -12,10 +12,19 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/jquery/dist/jquery.min.js'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
-axios.defaults.baseURL= 'http://localhost:3001'//Link do Heroku
+axios.defaults.baseURL= 'https://morning-badlands-27759.herokuapp.com/'//Link do Heroku
+
+window.getAxiosConfig = () => {
+  return {
+    headers: {
+      'Authorization': 'Bearer ' + JSON.parse(window.localStorage.getItem('token'))
+    }
+  }
+}
+
 ReactDOM.render(<BrowserRouter><App/></BrowserRouter>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
