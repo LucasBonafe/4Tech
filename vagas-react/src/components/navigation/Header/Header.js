@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const header = (props) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light  bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark">
       <div>
         <Link className="navbar-brand" to='/dashboard'>
           <img src={logo} style={{ width: '100px' }} />
@@ -23,9 +23,11 @@ const header = (props) => {
           <Link className="nav-item nav-link text-white" to='/sobre'>
             Sobre
           </Link>
-          <a className="nav-item nav-link text-white">{props.userName}</a>
+          <a className="nav-item nav-link text-white border-left">
+            <i className="fas fa-user  mr-2"></i> {props.userName}
+          </a>
           <a className="nav-item nav-link text-white" onClick={() => props.logout()}>
-            <i className="fas fa-sign-out-alt"></i> Logout
+            <i className="fas fa-sign-out-alt mr-2"></i> Logout
           </a>
 
         </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import JobCard from './JobCard/JobCard';
 import JobForm from '../JobForm/JobForm';
 import Collapse from '../navigation/Collapse/Collapse';
+import Loading from '../navigation/Loading/Loading';
 
 import axios from 'axios';
 
@@ -96,7 +97,7 @@ export default class JobsManagement extends React.Component {
       />
     });
 
-    return (
+    const listHTML = (
       <div>
         <Collapse buttonText="CRIAR VAGA" btnClass='btn-secondary'
           collapseId="newJobForm">
@@ -109,7 +110,15 @@ export default class JobsManagement extends React.Component {
         <div className="row">
           {renderJobs}
         </div>
+
+        <p>{ navigator.onLine ? 'Online' : 'Offline' }</p>
       </div>
     )
+
+    if (this.state.jobs && this.state.jobs.length > 0) {
+      return listHTML;
+    }
+
+    return <Loading/>;
   }
 }
